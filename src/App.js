@@ -13,12 +13,16 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.generateBoard();
+    this.getBoard();
   }
 
-  generateBoard() {
-    const initialBoard = sudoku.generate('easy').split(''),
-      board = initialBoard.map((value, index) => {
+  getBoard() {
+    const board = sudoku.generate('easy');
+    this.generateBoard(board);
+  }
+
+  generateBoard(initialBoard) {
+    const board = initialBoard.split('').map((value, index) => {
         let initialValue,  isInitial;
         if (value === '.') {
           initialValue = '';
@@ -51,7 +55,6 @@ class App extends Component {
   }
 
   resetBoard() {
-    console.log('reset');
     const newBoard = this.state.board.map((tile) => {
       if(tile.initial === false) {
         return {...tile, value: ''}
@@ -61,7 +64,22 @@ class App extends Component {
     this.setState({
       board: newBoard
     });
-    console.log(newBoard);
+  }
+
+  solveBoard() {
+    const stringifiedBoard = this.stringifyBoard(),
+      solved = sudoku.solve(stringifiedBoard);  
+    this.generateBoard(solved);  
+  }
+
+  stringifyBoard() {
+    const stringifiedBoard = this.state.board.map(tile => {
+      if(tile.value === '') {
+        tile.value = '.';
+      }
+      return tile.value;
+    });
+    return stringifiedBoard.join('');
   }
   
   render() {
@@ -69,7 +87,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
-        <Menu generate={() => this.generateBoard()} reset={() => this.resetBoard()}/>
+        <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()}/>
       </div>
     );
   }
