@@ -19,8 +19,30 @@ h2 {
     width: calc(100vw/9);
     height: calc(100vw/9);
     font-size: 1.5em;
-    border: 3px solid black;
+    border: 1px solid grey;
+    font-weight: bold;
 }
+.tile:nth-of-type(3n) {
+    border-right: 3px solid black;
+}
+.tile:nth-last-of-type(9n) {
+    border-left: 3px solid black;
+}
+.tile:nth-of-type(n+19):not(:nth-of-type(n+28)), .tile:nth-last-of-type(-n+9) {
+    border-bottom: 3px solid black;
+}
+
+.tile:nth-last-of-type(n+19):not(:nth-last-of-type(n+28)), .tile:nth-of-type(-n+9) {
+    border-top: 3px solid black;
+}
+
 .initialed-tile {
-    border: 1px solid black;
+    background: lightgrey;
+    font-weight: normal;
+}
+.correct {
+    border: 1px solid green;
+}
+.incorrect {
+    border: 1px solid red;
 }

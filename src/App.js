@@ -8,7 +8,8 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
-      board: []
+      board: [],
+      solved: []
     }
   }
 
@@ -17,7 +18,11 @@ class App extends Component {
   }
 
   getBoard() {
-    const board = sudoku.generate('easy');
+    const board = sudoku.generate('hard'),
+      solved = sudoku.solve(board);
+      this.setState({
+        solved: solved
+      })
     this.generateBoard(board);
   }
 
@@ -55,14 +60,9 @@ class App extends Component {
   }
 
   resetBoard() {
-    const newBoard = this.state.board.map((tile) => {
-      if(tile.initial === false) {
-        return {...tile, value: ''}
-      } 
-      return tile;
-    });
+    const initialBoard = this.getInitialBoard();
     this.setState({
-      board: newBoard
+      board: initialBoard
     });
   }
 
@@ -70,6 +70,40 @@ class App extends Component {
     const stringifiedBoard = this.stringifyBoard(),
       solved = sudoku.solve(stringifiedBoard);  
     this.generateBoard(solved);  
+  }
+
+  checkBoard() {
+    let solved;
+
+    if (sudoku.solve(this.stringifyBoard())) {
+      solved = sudoku.solve(this.stringifyBoard());
+    } else {
+      solved = this.state.solved;
+    }
+
+    const board = this.state.board.map((tile, index) => {
+      const solvedChar = solved.charAt(index);
+      if (tile.value === solvedChar) {
+        return {...tile, correct: true}
+      } else {
+        return {...tile, correct: false}
+      }
+    });
+    this.setState({
+      board: board
+    })
+    console.log(solved);
+    console.log(board);
+  }
+
+  getInitialBoard() {
+    const initialBoard = this.state.board.map((tile) => {
+      if(tile.initial === false) {
+        return {...tile, value: ''}
+      } 
+      return tile;
+    });
+    return initialBoard;
   }
 
   stringifyBoard() {
@@ -87,7 +121,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
-        <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()}/>
+        <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()}/>
       </div>
     );
   }

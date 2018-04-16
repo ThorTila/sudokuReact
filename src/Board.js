@@ -22,7 +22,7 @@ class Board extends React.Component {
                 <h2>Board</h2>
                 {
                     this.props.board.map( (tile, index) => {
-                    return <Tile key={index} handleChange={(e, id) => this.handleChange(e, id)} tile={tile} value={tile.value} index={tile.id}/>
+                    return <Tile key={index} handleChange={(e, id) => this.handleChange(e, id)} tile={tile} index={tile.id}/>
                     })
                 }
             </div>
