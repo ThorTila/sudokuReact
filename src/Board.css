@@ -1,0 +1,19 @@
+.board {
+    display: grid;
+    grid-template: repeat(10, 1fr) / repeat(9, 1fr);
+    max-width: 80vh;
+    margin: 0 auto;
+    text-align: center;
+}
+h2 {
+    grid-column: 1 / -1;
+    text-align: center;
+}
+.tile {
+    text-align: center;
+    max-width: calc(80vh/9);
+    max-height: calc(80vh/9);
+    width: calc(100vw/9);
+    height: calc(100vw/9);
+    font-size: 1.5em;
+}
