@@ -5,7 +5,15 @@ import './Board.css';
 class Board extends React.Component { 
 
     handleChange(e, id) {
-        this.props.updateBoard(id, e.target.value);
+        if(e.target.value > 0 && e.target.value < 10) {
+            console.log('ok');
+            
+            this.props.updateBoard(id, e.target.value);
+        } else {
+            this.props.updateBoard(id, '');
+            console.log('nie ok');
+            
+        }
     }
 
     render() {
@@ -14,7 +22,7 @@ class Board extends React.Component {
                 <h2>Board</h2>
                 {
                     this.props.board.map( (tile, index) => {
-                    return <Tile key={index} handleChange={(e, id) => this.handleChange(e, id)} value={tile.value} index={tile.id}/>
+                    return <Tile key={index} handleChange={(e, id) => this.handleChange(e, id)} tile={tile} value={tile.value} index={tile.id}/>
                     })
                 }
             </div>

@@ -15,7 +15,7 @@ class App extends Component {
   componentDidMount() {
     this.generateBoard();
   }
-  
+
   generateBoard() {
     const initialBoard = sudoku.generate('easy').split(''),
       board = initialBoard.map((value, index) => {
@@ -44,12 +44,24 @@ class App extends Component {
           return {...tile, value: value}
       }
       return tile;
-  });
-  this.setState({
-    board: newBoard
-  });
-  console.log(newBoard);
-  console.log(this.state.board);
+    });
+    this.setState({
+      board: newBoard
+    });
+  }
+
+  resetBoard() {
+    console.log('reset');
+    const newBoard = this.state.board.map((tile) => {
+      if(tile.initial === false) {
+        return {...tile, value: ''}
+      } 
+      return tile;
+    });
+    this.setState({
+      board: newBoard
+    });
+    console.log(newBoard);
   }
   
   render() {
@@ -57,7 +69,7 @@ class App extends Component {
       <div className="App">
         <Header />
         <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
-        <Menu generate={() => this.generateBoard()}/>
+        <Menu generate={() => this.generateBoard()} reset={() => this.resetBoard()}/>
       </div>
     );
   }

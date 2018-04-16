@@ -5,7 +5,7 @@ const Menu = (props) =>
         <button>Check</button>
         <button onClick={props.generate}>New Game</button>
         <button>Solve</button>
-        <button>Restart</button>
+        <button onClick={props.reset}>Restart</button>
     </div>;
 
 export default Menu;
