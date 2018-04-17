@@ -67,20 +67,22 @@ class App extends Component {
   }
 
   solveBoard() {
-    const stringifiedBoard = this.stringifyBoard(),
-      solved = sudoku.solve(stringifiedBoard);  
+    const solved = this.getSolvedBoard();
     this.generateBoard(solved);  
   }
 
-  checkBoard() {
+  getSolvedBoard() {
     let solved;
-
     if (sudoku.solve(this.stringifyBoard())) {
       solved = sudoku.solve(this.stringifyBoard());
     } else {
       solved = this.state.solved;
-    }
+    } 
+    return solved;
+  }
 
+  checkBoard() {
+    const solved = this.getSolvedBoard();
     const board = this.state.board.map((tile, index) => {
       const solvedChar = solved.charAt(index);
       if (tile.value === solvedChar) {
@@ -92,8 +94,6 @@ class App extends Component {
     this.setState({
       board: board
     })
-    console.log(solved);
-    console.log(board);
   }
 
   getInitialBoard() {
@@ -108,10 +108,11 @@ class App extends Component {
 
   stringifyBoard() {
     const stringifiedBoard = this.state.board.map(tile => {
-      if(tile.value === '') {
-        tile.value = '.';
+      const newTile = Object.assign({}, tile);
+      if(newTile.value === '') {
+        newTile.value = '.';
       }
-      return tile.value;
+      return newTile.value;
     });
     return stringifiedBoard.join('');
   }
