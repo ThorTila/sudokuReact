@@ -5,14 +5,10 @@ import './Board.css';
 class Board extends React.Component { 
 
     handleChange(e, id) {
-        if(e.target.value > 0 && e.target.value < 10) {
-            console.log('ok');
-            
+        if((e.target.value > 0 && e.target.value < 10) || e.target.value === '') {            
             this.props.updateBoard(id, e.target.value);
         } else {
-            this.props.updateBoard(id, '');
-            console.log('nie ok');
-            
+            return;            
         }
     }
 

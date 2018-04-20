@@ -18,7 +18,7 @@ class App extends Component {
   }
 
   getBoard() {
-    const board = sudoku.generate('hard'),
+    const board = sudoku.generate('medium'),
       solved = sudoku.solve(board);
       this.setState({
         solved: solved
@@ -55,7 +55,7 @@ class App extends Component {
       return tile;
     });
     this.setState({
-      board: newBoard
+      board: newBoard     //read only
     });
   }
 
