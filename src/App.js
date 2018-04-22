@@ -9,6 +9,7 @@ class App extends Component {
   constructor(){
     super();
     this.state = {
+      initial: [],
       board: [],
       solved: [],
       isWon: false
@@ -23,9 +24,9 @@ class App extends Component {
     const board = sudoku.generate('medium'),
       solved = sudoku.solve(board);
       this.setState({
-        solved: solved,
-        isWon: false
-      })
+        initial: board,
+        solved: solved
+      });
     this.generateBoard(board);
   }
 
@@ -46,7 +47,8 @@ class App extends Component {
         }
       });
       this.setState({
-        board: board
+        board: board,
+        isWon: false
       });
   }
 
@@ -63,11 +65,22 @@ class App extends Component {
   }
 
   resetBoard() {
-    const initialBoard = this.getInitialBoard();
+    this.generateBoard(this.state.initial);
+    /* const initialBoard = this.getInitialBoard();
     this.setState({
       board: initialBoard
-    });
+    }); */
   }
+
+  /* getInitialBoard() {
+    const initialBoard = this.state.board.map((tile) => {
+      if(tile.initial === false) {
+        return {...tile, value: ''}
+      } 
+      return tile;
+    });
+    return initialBoard;
+  } */
 
   solveBoard() {
     const solved = this.getSolvedBoard();
@@ -98,16 +111,6 @@ class App extends Component {
     this.setState({
       board: board
     })
-  }
-
-  getInitialBoard() {
-    const initialBoard = this.state.board.map((tile) => {
-      if(tile.initial === false) {
-        return {...tile, value: ''}
-      } 
-      return tile;
-    });
-    return initialBoard;
   }
 
   stringifyBoard() {
