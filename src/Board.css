@@ -1,10 +1,15 @@
 * {
     box-sizing: border-box;
 }
+body {
+    margin: 0;
+    padding: 0;
+}
 .board {
     display: grid;
     grid-template: repeat(10, 1fr) / repeat(9, 1fr);
     max-width: 80vh;
+    width: 100%;
     margin: 0 auto;
     text-align: center;
 }
@@ -13,14 +18,12 @@ h2 {
     text-align: center;
 }
 .tile {
+    border: 1px solid grey;
     text-align: center;
     max-width: calc(80vh/9);
     max-height: calc(80vh/9);
     width: calc(100vw/9);
     height: calc(100vw/9);
-    font-size: 1.5em;
-    border: 1px solid grey;
-    font-weight: bold;
 }
 .tile:nth-of-type(3n) {
     border-right: 3px solid black;
@@ -35,7 +38,20 @@ h2 {
 .tile:nth-last-of-type(n+19):not(:nth-last-of-type(n+28)), .tile:nth-of-type(-n+9) {
     border-top: 3px solid black;
 }
-
+.tile input {
+    width: 100%;
+}
+.main-tile {
+    font-size: 1.5em;
+    font-weight: bold;
+    height: 100%;
+}
+.candidates-tile {
+    font-size: 1em;
+    height: 20%;
+    border: none;
+    border-top: 1px solid lightgray;
+}
 .initialed-tile {
     background: lightgrey;
     font-weight: normal;
@@ -45,4 +61,21 @@ h2 {
 }
 .incorrect {
     border: 1px solid red;
+}
+.won {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(0,0,0,.7);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.won h1 {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
 }

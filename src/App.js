@@ -3,13 +3,15 @@ import sudoku from 'sudoku-umd';
 import Board from './Board';
 import Header from './Header';
 import Menu from './Menu';
+import Won from './Won';
 
 class App extends Component {
   constructor(){
     super();
     this.state = {
       board: [],
-      solved: []
+      solved: [],
+      isWon: false
     }
   }
 
@@ -21,7 +23,8 @@ class App extends Component {
     const board = sudoku.generate('medium'),
       solved = sudoku.solve(board);
       this.setState({
-        solved: solved
+        solved: solved,
+        isWon: false
       })
     this.generateBoard(board);
   }
@@ -55,7 +58,7 @@ class App extends Component {
       return tile;
     });
     this.setState({
-      board: newBoard     //read only
+      board: newBoard
     });
   }
 
@@ -91,6 +94,7 @@ class App extends Component {
         return {...tile, correct: false}
       }
     });
+    solved === this.stringifyBoard() ? this.setState({isWon: true}) : console.log('nie wygrana');
     this.setState({
       board: board
     })
@@ -120,6 +124,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        {this.state.isWon === true ? <Won generate={() => this.getBoard()} reset={() => this.resetBoard()}/>: false}
         <Header />
         <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
         <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()}/>
