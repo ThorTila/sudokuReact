@@ -12,9 +12,8 @@ class Board extends React.Component {
         }
     }
 
-    handleFocus(column, row, isFocused) {
-        this.props.setActive(column, row, isFocused);
-        console.log(`kolumna: ${column}, wiersz: ${row}`);
+    handleFocus(column, row, square) {
+        this.props.setActive(column, row, square);
     }
 
     render() {
@@ -27,7 +26,7 @@ class Board extends React.Component {
                         <Tile
                             key={index}
                             handleChange={(e, id) => this.handleChange(e, id)} tile={tile}
-                            handleFocus={(column, row, isFocused) => this.handleFocus(column, row, isFocused)}
+                            handleFocus={(column, row, square) => this.handleFocus(column, row, square)}
                             active={this.props.active}
                         />
                     )

@@ -19,14 +19,8 @@ class App extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.getBoard('medium');
-    /* this.generateBoard('.................................................................................') */
-  }
-
-  componentDidUpdate() {
-    console.log(this.state.active);
-    
   }
 
   getBoard(level) {
@@ -45,7 +39,7 @@ class App extends Component {
 
   generateBoard(initialBoard) {
     const board = initialBoard.split('').map((value, index) => {
-        let initialValue,  isInitial, column, row;
+        let initialValue,  isInitial, column, row, square;
         if (value === '.') {
           initialValue = '';
           isInitial = false;
@@ -58,11 +52,13 @@ class App extends Component {
         while (column > 9) {
           column -= 9;
         };
+        square = (Math.ceil(column / 3) + ((Math.ceil(row / 3) * 3) - 3));
         return {
           id: index,
           value: initialValue,
           column: column,
           row: row,
+          square: square,
           initial: isInitial
         }
       });
@@ -86,21 +82,7 @@ class App extends Component {
 
   resetBoard() {
     this.generateBoard(this.state.initial);
-    /* const initialBoard = this.getInitialBoard();
-    this.setState({
-      board: initialBoard
-    }); */
   }
-
-  /* getInitialBoard() {
-    const initialBoard = this.state.board.map((tile) => {
-      if(tile.initial === false) {
-        return {...tile, value: ''}
-      } 
-      return tile;
-    });
-    return initialBoard;
-  } */
 
   solveBoard() {
     const solved = this.getSolvedBoard();
@@ -127,7 +109,11 @@ class App extends Component {
         return {...tile, correct: false}
       }
     });
-    solved === this.stringifyBoard() ? this.setState({isWon: true}) : console.log('nie wygrana');
+    if (solved === this.stringifyBoard()) {
+      this.setState({
+        isWon: true
+      });
+     };
     this.setState({
       board: board
     })
@@ -150,13 +136,13 @@ class App extends Component {
     });
   }
 
-  setActive(column, row, isFocused) {
-    console.log(`główna: /n kolumna: ${column}, wiersz: ${row}`);
-    isFocused ?
+  setActive(column, row, square) {
+    column && row && square ?
       this.setState({
         active: {
           column: column,
-          row: row
+          row: row,
+          square: square
         }
       }) : 
       this.setState({
@@ -170,7 +156,7 @@ class App extends Component {
         {this.state.isWon === true ? <Won generate={() => this.getBoard()} reset={() => this.resetBoard()}/>: false}
         <Header />
         <Menu handleMenu={() => this.handleMenu()} generate={(level) => this.getBoard(level)} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()} showed={this.state.showed}/>
-        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)} setActive={(column, row, isFocused) => this.setActive(column, row, isFocused)} active={this.state.active}/>
+        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)} setActive={(column, row, square) => this.setActive(column, row, square)} active={this.state.active}/>
       </div>
     );
   }
