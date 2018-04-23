@@ -13,21 +13,25 @@ class App extends Component {
       board: [],
       solved: [],
       isWon: false,
-      showed: false
+      showed: false,
+      diffLevel: ''
     }
   }
 
   componentDidMount() {
-    this.getBoard();
+    this.getBoard('medium');
   }
 
   getBoard(level) {
-    const board = sudoku.generate(level),
+    let newLevel;
+    !level ? newLevel = this.state.diffLevel : newLevel = level;
+    const board = sudoku.generate(newLevel),
       solved = sudoku.solve(board);
       this.setState({
         initial: board,
         solved: solved,
-        showed: false
+        showed: false,
+        diffLevel: level
       });
     this.generateBoard(board);
   }
