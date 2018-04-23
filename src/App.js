@@ -12,7 +12,8 @@ class App extends Component {
       initial: [],
       board: [],
       solved: [],
-      isWon: false
+      isWon: false,
+      showed: false
     }
   }
 
@@ -20,12 +21,13 @@ class App extends Component {
     this.getBoard();
   }
 
-  getBoard() {
-    const board = sudoku.generate('medium'),
+  getBoard(level) {
+    const board = sudoku.generate(level),
       solved = sudoku.solve(board);
       this.setState({
         initial: board,
-        solved: solved
+        solved: solved,
+        showed: false
       });
     this.generateBoard(board);
   }
@@ -123,13 +125,19 @@ class App extends Component {
     });
     return stringifiedBoard.join('');
   }
+
+  handleMenu() {
+    this.setState({
+      showed: !this.state.showed
+    });
+  }
   
   render() {
     return (
       <div className="App">
         {this.state.isWon === true ? <Won generate={() => this.getBoard()} reset={() => this.resetBoard()}/>: false}
         <Header />
-        <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()}/>
+        <Menu handleMenu={() => this.handleMenu()} generate={(level) => this.getBoard(level)} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()} showed={this.state.showed}/>
         <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
       </div>
     );
