@@ -14,12 +14,19 @@ class App extends Component {
       solved: [],
       isWon: false,
       showed: false,
+      active: {},
       diffLevel: ''
     }
   }
 
   componentDidMount() {
     this.getBoard('medium');
+    /* this.generateBoard('.................................................................................') */
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.active);
+    
   }
 
   getBoard(level) {
@@ -38,7 +45,7 @@ class App extends Component {
 
   generateBoard(initialBoard) {
     const board = initialBoard.split('').map((value, index) => {
-        let initialValue,  isInitial;
+        let initialValue,  isInitial, column, row;
         if (value === '.') {
           initialValue = '';
           isInitial = false;
@@ -46,9 +53,16 @@ class App extends Component {
            initialValue = value;
            isInitial = true;
         }
+        row = Math.floor((index / 9) + 1);
+        column = index + 1;
+        while (column > 9) {
+          column -= 9;
+        };
         return {
           id: index,
           value: initialValue,
+          column: column,
+          row: row,
           initial: isInitial
         }
       });
@@ -135,6 +149,20 @@ class App extends Component {
       showed: !this.state.showed
     });
   }
+
+  setActive(column, row, isFocused) {
+    console.log(`główna: /n kolumna: ${column}, wiersz: ${row}`);
+    isFocused ?
+      this.setState({
+        active: {
+          column: column,
+          row: row
+        }
+      }) : 
+      this.setState({
+        active: {}
+      });
+  }
   
   render() {
     return (
@@ -142,7 +170,7 @@ class App extends Component {
         {this.state.isWon === true ? <Won generate={() => this.getBoard()} reset={() => this.resetBoard()}/>: false}
         <Header />
         <Menu handleMenu={() => this.handleMenu()} generate={(level) => this.getBoard(level)} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()} showed={this.state.showed}/>
-        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
+        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)} setActive={(column, row, isFocused) => this.setActive(column, row, isFocused)} active={this.state.active}/>
       </div>
     );
   }

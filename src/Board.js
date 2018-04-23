@@ -12,13 +12,25 @@ class Board extends React.Component {
         }
     }
 
+    handleFocus(column, row, isFocused) {
+        this.props.setActive(column, row, isFocused);
+        console.log(`kolumna: ${column}, wiersz: ${row}`);
+    }
+
     render() {
         return (
             <div className="board">
                 <h2>Board</h2>
                 {
                     this.props.board.map( (tile, index) => {
-                    return <Tile key={index} handleChange={(e, id) => this.handleChange(e, id)} tile={tile}/>
+                    return (
+                        <Tile
+                            key={index}
+                            handleChange={(e, id) => this.handleChange(e, id)} tile={tile}
+                            handleFocus={(column, row, isFocused) => this.handleFocus(column, row, isFocused)}
+                            active={this.props.active}
+                        />
+                    )
                     })
                 }
             </div>
