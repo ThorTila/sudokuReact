@@ -129,8 +129,8 @@ class App extends Component {
       <div className="App">
         {this.state.isWon === true ? <Won generate={() => this.getBoard()} reset={() => this.resetBoard()}/>: false}
         <Header />
-        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
         <Menu generate={() => this.getBoard()} reset={() => this.resetBoard()} solve={() => this.solveBoard()} check={() => this.checkBoard()}/>
+        <Board board={this.state.board} updateBoard={(id, value) => this.updateBoard(id, value)}/>
       </div>
     );
   }
