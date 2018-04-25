@@ -1,14 +1,13 @@
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import App from '../presentational/App';
-import {getBoard, resetBoard} from '../actions/board-actions';
+import { getBoard } from '../actions/board-actions';
 
 const mapStateToProps = state => ({
-    isWon: state.boardReducer.isWon
-})
+  isWon: state.boardReducer.isWon
+});
 
 const mapDispatchToProps = dispatch => ({
-    getBoard: (level) => dispatch(getBoard(level)),
-    resetBoard: () => dispatch(resetBoard())
+  getBoard: level => dispatch(getBoard(level))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
