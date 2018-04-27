@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/Won.css';
 
 const Won = props => (
   <div className="won">

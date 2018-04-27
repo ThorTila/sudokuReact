@@ -1,0 +1,13 @@
+.dropdown {
+  display: none;
+  position: absolute;
+  top: 30px;
+}
+.show {
+  display: block;
+}
+.buttons {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}

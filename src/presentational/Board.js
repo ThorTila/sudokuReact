@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import Tile from './Tile';
-import './Board.css';
+import '../css/Board.css';
 
 class Board extends Component {
+  constructor() {
+    super();
+    this.state = {
+      active: {}
+    };
+  }
+
   handleChange(e, id) {
     if ((e.target.value > 0 && e.target.value < 10) || e.target.value === '') {
       this.props.updateBoard(id, e.target.value);
@@ -12,7 +19,21 @@ class Board extends Component {
   }
 
   handleFocus(column, row, square) {
-    this.props.setActive(column, row, square);
+    this.setActive(column, row, square);
+  }
+
+  setActive(column, row, square) {
+    column && row && square
+      ? this.setState({
+          active: {
+            column: column,
+            row: row,
+            square: square
+          }
+        })
+      : this.setState({
+          active: {}
+        });
   }
 
   render() {
@@ -28,7 +49,7 @@ class Board extends Component {
               handleFocus={(column, row, square) =>
                 this.handleFocus(column, row, square)
               }
-              active={this.props.active}
+              active={this.state.active}
             />
           );
         })}

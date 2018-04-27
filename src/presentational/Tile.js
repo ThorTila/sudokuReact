@@ -1,4 +1,5 @@
 import React from 'react';
+import '../css/Tile.css';
 
 const Tile = props => (
   <div className="tile">
